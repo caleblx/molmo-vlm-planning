@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from vlm_classes.molmo import molmo_handler
 import shutil
 import os
@@ -7,7 +7,10 @@ app = FastAPI()
 model_handler = molmo_handler()
 
 @app.post("/generate-text/")
-async def generate_text(file: UploadFile = File(...), prompt: str = ""):
+async def generate_text(
+    file: UploadFile = File(...), 
+    prompt: str = Form(...)
+):
 
     temp_file_path = f"temp_{file.filename}"
     with open(temp_file_path, "wb") as buffer:
